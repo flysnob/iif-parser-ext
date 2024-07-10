@@ -3,6 +3,8 @@ require 'csv'
 require 'rchardet'
 require_relative 'parser/version'
 require_relative 'parser/transaction'
+require_relative 'parser/vendor'
+require_relative 'parser/customer'
 require_relative 'parser/entry'
 
 module Iif
@@ -116,6 +118,14 @@ module Iif
         when "ENDTRNS"
           @transactions.push(transaction)
           in_transaction = false
+        when "VEND"
+          vendor = Vendor.new
+          vendor.entries.push(entry)
+          @transactions.push(vendor)
+        when "CUST"
+          customer = Customer.new
+          customer.entries.push(entry)
+          @transactions.push(customer)
         end
 
         transaction.entries.push(entry) if in_transaction

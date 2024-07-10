@@ -200,4 +200,10 @@ describe Iif::Parser do
     expect(find_all_transactions_by_amount(i.transactions, '273.55').size).to eq 1
     expect(find_all_transactions_by_amount(i.transactions, '1600.96').size).to eq 1
   end
+
+  it 'parses a vendor line' do
+    iif = File.read(File.dirname(__FILE__) + "/../fixtures/vendor.iif")
+    i = Iif::Parser.new(iif, options)
+    expect(i.transactions.size).to eq 1
+  end
 end
